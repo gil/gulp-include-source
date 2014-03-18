@@ -1,0 +1,28 @@
+{
+  "bitwise" : true,
+  "camelcase" : true,
+  "curly" : true,
+  "eqeqeq" : true,
+  "forin" : true,
+  "immed" : true,
+  "indent" : 2,
+  "latedef" : true,
+  "newcap" : true,
+  "noarg" : true,
+  "noempty" : true,
+  "nonew" : true,
+  "quotmark" : true,
+  "undef" : true,
+  "unused" : true,
+  "strict" : true,
+  "trailing" : true,
+  "maxparams" : 4,
+  "maxdepth" : 2,
+  "maxcomplexity" : 5,
+  "browser" : true,
+  "devel" : false,
+  "node" : true,
+  "nonstandard" : true,
+  "predef" : [
+  ]
+}
