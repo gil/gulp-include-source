@@ -12,13 +12,43 @@ npm install gulp-include-source --save-dev
 
 ## Example
 
+#### gulpfile.js
+
 ```js
 gulp.task('html', function() {
-
   return gulp.src( './client/index.html' )
     .pipe( includeSources() )
     .pipe( gulp.dest('build/') );
 });
+```
+
+#### index.html
+
+```html
+<html>
+<head>
+  <!-- include:css(style/**/*.css) -->
+</head>
+<body>
+  <!-- include:js(script/**/*.js) -->
+</body>
+</html>
+```
+
+#### Result:
+
+```html
+<html>
+<head>
+  <link rel="stylesheet" href="style/main.css">
+</head>
+<body>
+  <script src="app.js"></script>
+  <script src="controllers/LoginController.js"></script>
+  <script src="controllers/MainController.js"></script>
+  <script src="services/LoginService.js"></script>
+</body>
+</html>
 ```
 
 ## API
