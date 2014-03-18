@@ -1,7 +1,21 @@
 {
   "name": "gulp-include-source",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Include scripts and styles into your HTML files automatically.",
+  "author": {
+    "name": "André Gil",
+    "email": "hey@andregil.org",
+    "url": "http://somepixels.net/"
+  },
+  "homepage": "https://github.com/gil/gulp-include-source",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/gil/gulp-include-source.git"
+  },
+  "bugs": {
+    "url": "https://github.com/gil/gulp-include-source/issues"
+  },
+  "readmeFilename": "README.md",
   "main": "index.js",
   "scripts": {
     "test": "mocha"
@@ -14,7 +28,6 @@
     "require",
     "assets"
   ],
-  "author": "André Gil <hey@andregil.org>",
   "license": "MIT",
   "dependencies": {
     "replace-ext": "0.0.1",
