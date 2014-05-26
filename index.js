@@ -5,6 +5,7 @@ var through = require('through2'),
     path = require('path'),
     replaceExt = require('replace-ext'),
     gutil = require('gulp-util'),
+    fs = require('fs'),
     PluginError = gutil.PluginError;
 
 var PLUGIN_NAME = 'gulp-include-source';
@@ -29,6 +30,16 @@ function replaceExtension(filename, type, options) {
   return filename;
 }
 
+function parseFiles(source, cwd) {
+
+  if( source.indexOf('list:') === 0 ) {
+    var cleanSrc = source.replace('list:', '');
+    return fs.readFileSync( cleanSrc ).toString().split('\n');
+  }
+
+  return glob.sync( source, { cwd : cwd } );
+}
+
 function injectFiles(file, options) {
 
   var contents = file.contents.toString();
@@ -39,7 +50,7 @@ function injectFiles(file, options) {
 
     var type = matches[1];
     var placeholder = placeholders[ type ];
-    var files = glob.sync( matches[2], { cwd : cwd } );
+    var files = parseFiles(matches[2], cwd);
     var includes = '';
 
     if( placeholder && files && files.length > 0 ) {

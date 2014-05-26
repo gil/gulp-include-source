@@ -30,9 +30,17 @@ gulp.task('html', function() {
   <!-- include:css(style/**/*.css) -->
 </head>
 <body>
+  <!-- include:js(list:vendorList) -->
   <!-- include:js(script/**/*.js) -->
 </body>
 </html>
+```
+
+#### scriptList
+
+```
+bower_components/jquery/dist/jquery.js
+bower_components/angular/angular.js
 ```
 
 #### Result:
@@ -43,6 +51,8 @@ gulp.task('html', function() {
   <link rel="stylesheet" href="style/main.css">
 </head>
 <body>
+  <script src="bower_components/jquery/dist/jquery.js"></script>
+  <script src="bower_components/angular/angular.js"></script>
   <script src="app.js"></script>
   <script src="controllers/LoginController.js"></script>
   <script src="controllers/MainController.js"></script>
