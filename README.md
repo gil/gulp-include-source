@@ -2,6 +2,8 @@
 
 Gulp plugin to include scripts and styles into your HTML files automatically.
 
+
+
 ## Install
 
 Install with [npm](https://npmjs.org/package/gulp-ngmin)
@@ -9,6 +11,8 @@ Install with [npm](https://npmjs.org/package/gulp-ngmin)
 ```
 npm install gulp-include-source --save-dev
 ```
+
+
 
 ## Example
 
@@ -61,9 +65,17 @@ bower_components/angular/angular.js
 </html>
 ```
 
+
+
 ## API
 
 ### includeSources(options)
+
+#### options.cwd
+
+Type: `String`
+
+Base directory from where the plugin will search for source files.
 
 #### options.scriptExt
 
@@ -76,6 +88,8 @@ When available, will override script extension in resulted HTML code.
 Type: `String`
 
 When available, will override style extension in resulted HTML code.
+
+
 
 ## License
 

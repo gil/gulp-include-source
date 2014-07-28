@@ -43,7 +43,7 @@ function parseFiles(source, cwd) {
 function injectFiles(file, options) {
 
   var contents = file.contents.toString();
-  var cwd = path.dirname(file.path);
+  var cwd = options.cwd || path.dirname(file.path);
   var matches = matchExpressions(contents);
 
   while( matches ) {

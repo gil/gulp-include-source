@@ -1,6 +1,6 @@
 {
   "name": "gulp-include-source",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Include scripts and styles into your HTML files automatically.",
   "author": {
     "name": "André Gil",
