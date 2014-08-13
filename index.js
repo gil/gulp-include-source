@@ -16,7 +16,7 @@ var placeholders = {
 };
 
 function matchExpressions(contents) {
-  return contents.match(/<!--\s+include:([a-z]+)\(([^)]+)\)\s+-->/);
+  return contents.match(/<!--\s+include:([a-z]+)\(([^)]+)\)\s*-->/);
 }
 
 function replaceExtension(filename, type, options) {
