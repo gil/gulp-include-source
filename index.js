@@ -11,13 +11,11 @@ var through = require('through2'),
 var PLUGIN_NAME = 'gulp-include-source';
 
 var placeholders = {
-  'js' : '<script src="%"></script>',
-  'css' : '<link rel="stylesheet" href="%">'
+  js: '<script src="%"></script>',
+  css: '<link rel="stylesheet" href="%">'
 };
 
-function matchExpressions(contents) {
-  return contents.match(/<!--\s+include:([a-z]+)\(([^)]+)\)\s+-->/);
-}
+var commentRegex = /<!--\s+include:([a-z]+)\(([^)]+)\)\s+-->/;
 
 /**
  * @param {String} filename
@@ -64,10 +62,9 @@ function injectFiles(file, options) {
 
   var contents = file.contents.toString();
   var cwd = options.cwd || path.dirname(file.path);
-  var matches = matchExpressions(contents);
+  var matches;
 
-  while( matches ) {
-
+  while (matches = contents.match(commentRegex)) {
     var type = matches[1];
     var placeholder = placeholders[ type ];
     var files = parseFiles(matches[2], cwd);
@@ -82,7 +79,6 @@ function injectFiles(file, options) {
     }
 
     contents = contents.substring(0, matches.index) + includes + contents.substring(matches.index + matches[0].length);
-    matches = matchExpressions(contents);
   }
 
   return contents;
@@ -98,7 +94,7 @@ function gulpIncludeSource(options) {
 
   options = options || {};
 
-  var stream = through.obj(function(file, enc, callback) {
+  return through.obj(function(file, enc, callback) {
 
     if (file.isNull()) {
       this.push(file); // Do nothing if no contents
@@ -121,8 +117,6 @@ function gulpIncludeSource(options) {
     this.push(file);
     return callback();
   });
-
-  return stream;
 }
 
 module.exports = gulpIncludeSource;
