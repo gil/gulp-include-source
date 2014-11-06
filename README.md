@@ -40,7 +40,7 @@ gulp.task('html', function() {
 </html>
 ```
 
-#### scriptList
+#### vendorList
 
 ```
 bower_components/jquery/dist/jquery.js
