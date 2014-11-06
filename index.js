@@ -19,6 +19,12 @@ function matchExpressions(contents) {
   return contents.match(/<!--\s+include:([a-z]+)\(([^)]+)\)\s+-->/);
 }
 
+/**
+ * @param {String} filename
+ * @param {String} type Either "js" or "css"
+ * @param {Object} options
+ * @return {String}
+ */
 function replaceExtension(filename, type, options) {
 
   if( options.scriptExt && type === 'js' ) {
@@ -30,6 +36,13 @@ function replaceExtension(filename, type, options) {
   return filename;
 }
 
+/**
+ * Convert comment glob into list of file names
+ *
+ * @param {String} source
+ * @param {String} cwd
+ * @return {String[]} Array of file paths
+ */
 function parseFiles(source, cwd) {
 
   if( source.indexOf('list:') === 0 ) {
@@ -40,6 +53,13 @@ function parseFiles(source, cwd) {
   return glob.sync( source, { cwd : cwd } );
 }
 
+/**
+ * Stream handler
+ *
+ * @param {File} file
+ * @param {Object} options
+ * @return {String}
+ */
 function injectFiles(file, options) {
 
   var contents = file.contents.toString();
@@ -68,6 +88,12 @@ function injectFiles(file, options) {
   return contents;
 }
 
+/**
+ * Gulp API function
+ *
+ * @param {Object} options
+ * @return {Transform}
+ */
 function gulpIncludeSource(options) {
 
   options = options || {};
