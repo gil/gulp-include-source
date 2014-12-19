@@ -82,6 +82,23 @@ describe('gulp-include-source', function() {
       stream.end();
     });
 
+    it('should replace the php placeholder with php', function(done) {
+
+      var stream = includeSources();
+      var fakeFile = new File({
+        contents: new Buffer('<!-- include:php(php/**/*.php) -->')
+      });
+
+      stream.once('data', function(file) {
+        assert( file.isBuffer() );
+        assert.equal( file.contents.toString('utf8'), 'require_once("files/file1.ext");\nrequire_once("files/file2.ext");' );
+        done();
+      });
+
+      stream.write(fakeFile);
+      stream.end();
+    });
+
     it('should replace style files extension', function(done) {
 
       var stream = includeSources({ styleExt : 'css' });
@@ -103,12 +120,12 @@ describe('gulp-include-source', function() {
 
       var stream = includeSources();
       var fakeFile = new File({
-        contents: new Buffer('<!-- include:js(scripts/**/*.js) -->\n<!-- include:css(styles/**/*.css) -->')
+        contents: new Buffer('<!-- include:js(scripts/**/*.js) -->\n<!-- include:css(styles/**/*.css) -->\n<!-- include:php(php/**/*.php) -->')
       });
 
       stream.once('data', function(file) {
         assert( file.isBuffer() );
-        assert.equal( file.contents.toString('utf8'), '<script src="files/file1.ext"></script>\n<script src="files/file2.ext"></script>\n<link rel="stylesheet" href="files/file1.ext">\n<link rel="stylesheet" href="files/file2.ext">' );
+        assert.equal( file.contents.toString('utf8'), '<script src="files/file1.ext"></script>\n<script src="files/file2.ext"></script>\n<link rel="stylesheet" href="files/file1.ext">\n<link rel="stylesheet" href="files/file2.ext">\nrequire_once("files/file1.ext");\nrequire_once("files/file2.ext");' );
         done();
       });
 

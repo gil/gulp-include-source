@@ -12,7 +12,8 @@ var PLUGIN_NAME = 'gulp-include-source';
 
 var placeholders = {
   'js' : '<script src="%"></script>',
-  'css' : '<link rel="stylesheet" href="%">'
+  'css' : '<link rel="stylesheet" href="%">',
+  'php' : 'require_once("%");'
 };
 
 function matchExpressions(contents) {
