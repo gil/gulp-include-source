@@ -52,11 +52,12 @@ function injectFiles(file, options) {
     var placeholder = placeholders[ type ];
     var files = parseFiles(matches[2], cwd);
     var includes = '';
+    var cacheBustQueryString = options.queryStringCacheBust ?
+      '?' + new Date().getTime().toString() : '';
 
     if( placeholder && files && files.length > 0 ) {
-
       includes = files.map(function(filename) {
-        filename = replaceExtension(filename, type, options);
+        filename = replaceExtension(filename, type, options) + cacheBustQueryString;
         return placeholder.split('%').join(filename);
       }).join('\n');
     }
