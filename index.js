@@ -44,6 +44,7 @@ function injectFiles(file, options) {
 
   var contents = file.contents.toString();
   var cwd = options.cwd || path.dirname(file.path);
+  var baseUrl = options.baseUrl || '';
   var matches = matchExpressions(contents);
 
   while( matches ) {
@@ -56,7 +57,7 @@ function injectFiles(file, options) {
     if( placeholder && files && files.length > 0 ) {
 
       includes = files.map(function(filename) {
-        filename = replaceExtension(filename, type, options);
+        filename = baseUrl + replaceExtension(filename, type, options);
         return placeholder.split('%').join(filename);
       }).join('\n');
     }
