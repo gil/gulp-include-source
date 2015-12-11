@@ -1,18 +1,18 @@
 'use strict';
 
 var through = require('through2'),
-    glob = require('glob'),
-    path = require('path'),
-    replaceExt = require('replace-ext'),
-    gutil = require('gulp-util'),
-    fs = require('fs'),
-    PluginError = gutil.PluginError;
+glob = require('glob'),
+path = require('path'),
+replaceExt = require('replace-ext'),
+gutil = require('gulp-util'),
+fs = require('fs'),
+PluginError = gutil.PluginError;
 
 var PLUGIN_NAME = 'gulp-include-source';
 
 var placeholders = {
-  'js' : '<script src="%"></script>',
-  'css' : '<link rel="stylesheet" href="%">'
+  'js': '<script src="%"></script>',
+  'css': '<link rel="stylesheet" href="%">'
 };
 
 function matchExpressions(contents) {
@@ -21,9 +21,9 @@ function matchExpressions(contents) {
 
 function replaceExtension(filename, type, options) {
 
-  if( options.scriptExt && type === 'js' ) {
+  if (options.scriptExt && type === 'js') {
     filename = replaceExt(filename, '.' + options.scriptExt);
-  } else if( options.styleExt && type === 'css' ) {
+  } else if (options.styleExt && type === 'css') {
     filename = replaceExt(filename, '.' + options.styleExt);
   }
 
@@ -32,30 +32,44 @@ function replaceExtension(filename, type, options) {
 
 function parseFiles(source, cwd) {
 
-  if( source.indexOf('list:') === 0 ) {
+  if (source.indexOf('list:') === 0) {
     var cleanSrc = source.replace('list:', '');
-    return fs.readFileSync( cleanSrc ).toString().split('\n');
+    var re = fs.readFileSync(cleanSrc).toString().split('\n');
+    var fileGlob = null,
+    arrayLength = re.length;
+
+    //Allows wild cards to be implemented in list
+    for (var i = 0; i < arrayLength; i++) {
+      var val = re[i];
+
+      if (val.match(/(\*+)/)) {
+        fileGlob = glob.sync(val, {cwd: cwd});
+        Array.prototype.splice.apply(re, [i, 1].concat(fileGlob));
+        arrayLength = re.length;
+      }
+    }
+
+    return re;
   }
 
-  return glob.sync( source, { cwd : cwd } );
+  return glob.sync(source, {cwd: cwd});
 }
 
 function injectFiles(file, options) {
-
   var contents = file.contents.toString();
   var cwd = options.cwd || path.dirname(file.path);
   var matches = matchExpressions(contents);
 
-  while( matches ) {
+  while (matches) {
 
     var type = matches[1];
-    var placeholder = placeholders[ type ];
+    var placeholder = placeholders[type];
     var files = parseFiles(matches[2], cwd);
     var includes = '';
 
-    if( placeholder && files && files.length > 0 ) {
+    if (placeholder && files && files.length > 0) {
 
-      includes = files.map(function(filename) {
+      includes = files.map(function (filename) {
         filename = replaceExtension(filename, type, options);
         return placeholder.split('%').join(filename);
       }).join('\n');
@@ -72,7 +86,7 @@ function gulpIncludeSource(options) {
 
   options = options || {};
 
-  var stream = through.obj(function(file, enc, callback) {
+  var stream = through.obj(function (file, enc, callback) {
 
     if (file.isNull()) {
       this.push(file); // Do nothing if no contents
@@ -86,7 +100,7 @@ function gulpIncludeSource(options) {
 
     if (file.isBuffer()) {
       try {
-        file.contents = new Buffer( injectFiles( file, options ) );
+        file.contents = new Buffer(injectFiles(file, options));
       } catch (err) {
         this.emit('error', new gutil.PluginError(PLUGIN_NAME, err));
       }
